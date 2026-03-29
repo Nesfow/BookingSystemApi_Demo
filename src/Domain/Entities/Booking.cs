@@ -11,8 +11,7 @@ public class Booking
     public decimal Price { get; set; }
     public BookingStatus BookingStatus { get; set; } = BookingStatus.Pending;
     public List<EventSeat> BookedSeats { get; set; } = [];
-    private readonly List<Payment> _payments = [];
-    public IReadOnlyCollection<Payment> Payments => _payments;
+    public List<Payment> Payments = [];
 
     public decimal CalculatePrice()
     {
@@ -22,6 +21,6 @@ public class Booking
     public void AddPayment(Payment payment)
     {
         ArgumentNullException.ThrowIfNull(payment);
-        _payments.Add(payment);
+        Payments.Add(payment);
     }
 }
