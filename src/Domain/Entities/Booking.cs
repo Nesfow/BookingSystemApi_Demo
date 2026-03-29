@@ -11,7 +11,7 @@ public class Booking
     public decimal Price { get; set; }
     public BookingStatus BookingStatus { get; set; } = BookingStatus.Pending;
     public List<EventSeat> BookedSeats { get; set; } = [];
-    public List<Payment> Payments = [];
+    public List<Payment> Payments { get; set; } = [];
 
     public decimal CalculatePrice()
     {
