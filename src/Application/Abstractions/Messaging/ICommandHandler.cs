@@ -1,15 +1,17 @@
+using Shared;
+
 namespace BookingSystemApi.Application.Abstractions.Messaging;
 
-// For commands w/o response
+// For commands without response
 public interface ICommandHandler<in TCommand>
     where TCommand : ICommand
 {
-    Task Handle(TCommand command, CancellationToken cancellationToken);
+    Task<Result> Handle(TCommand command, CancellationToken cancellationToken);
 }
 
 // For commands with response
 public interface ICommandHandler<in TCommand, TResponse>
     where TCommand : ICommand<TResponse>
 {
-    Task<TResponse> Handle(TCommand command, CancellationToken cancellationToken);
+    Task<Result<TResponse>> Handle(TCommand command, CancellationToken cancellationToken);
 }
