@@ -5,11 +5,14 @@ namespace BookingSystemApi.Domain.Entities;
 public class Booking
 {
     public int Id { get; set; }
-    public User User { get; set; } = null!;
-    public Event Event { get; set; } = null!;
+    public int UserId { get; set; }
+    public int EventId { get; set; }
     public DateTimeOffset BookingDate { get; set; }
     public decimal Price { get; set; }
     public BookingStatus BookingStatus { get; set; } = BookingStatus.Pending;
+
+    public User User { get; set; } = null!;
+    public Event Event { get; set; } = null!;
     public List<EventSeat> BookedSeats { get; set; } = [];
     public List<Payment> Payments { get; set; } = [];
 
