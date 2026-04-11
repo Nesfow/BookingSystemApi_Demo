@@ -17,10 +17,4 @@ public class Booking
     {
         return BookedSeats.Sum(s => s.Price);
     }
-
-    public void AddPayment(Payment payment)
-    {
-        ArgumentNullException.ThrowIfNull(payment);
-        Payments.Add(payment);
-    }
 }
