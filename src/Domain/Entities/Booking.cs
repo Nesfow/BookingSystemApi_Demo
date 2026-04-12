@@ -16,6 +16,8 @@ public class Booking
     public List<EventSeat> BookedSeats { get; set; } = [];
     public List<Payment> Payments { get; set; } = [];
 
+    private Booking() { } // for ef core migrations
+
     public decimal CalculatePrice()
     {
         return BookedSeats.Sum(s => s.Price);
