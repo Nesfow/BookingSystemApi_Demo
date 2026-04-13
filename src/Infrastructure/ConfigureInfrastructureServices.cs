@@ -14,7 +14,7 @@ public static class ConfigureInfrastructureServices
         services.AddDbContextFactory<BookingSystemDbContext>(options =>
         {
             options.UseSqlServer(
-                configuration.GetConnectionString(DbName) ?? throw new InvalidOperationException($"Connection string '{DbName}' not found."),
+                configuration.GetConnectionString(DbName),
                 sqlServerOptionsAction =>
                     {
                         sqlServerOptionsAction.EnableRetryOnFailure(3);

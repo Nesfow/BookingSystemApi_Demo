@@ -3,9 +3,9 @@ param([Parameter(Mandatory = $true)] [string]$Name)
 Write-Host "Creating migration: $Name..."
 
 dotnet ef migrations add $Name `
-    --project ".\src\Infrastructure" `
+    --project ".\src\Infrastructure\" `
+    --startup-project ".\src\Api\" `
     --output-dir ".\Migrations" `
-    --startup-project ".\src\Api" `
     --context "BookingSystemDbContext"
 
 if ($LASTEXITCODE -eq 0) {
@@ -15,8 +15,8 @@ if ($LASTEXITCODE -eq 0) {
 }
 
 dotnet ef migrations bundle `
-    --project ".\src\Infrastructure" `
-    --startup-project ".\src\Api" `
+    --project ".\src\Infrastructure\" `
+    --startup-project ".\src\Api\" `
     --context "BookingSystemDbContext" `
     --output ".\migrationBundle\efbundle.exe" `
     --force `
