@@ -4,5 +4,5 @@ namespace BookingSystemApi.Application.Abstractions.Repositories;
 
 public interface IEventRepository
 {
-    Task<bool> CreateEvent(Event eventToCreate);
+    Task<int> CreateEvent(Event eventToCreate, CancellationToken cancellationToken);
 }
