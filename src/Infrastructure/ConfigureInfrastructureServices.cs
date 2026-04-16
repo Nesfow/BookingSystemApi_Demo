@@ -21,6 +21,7 @@ public static class ConfigureInfrastructureServices
                     {
                         sqlServerOptionsAction.EnableRetryOnFailure(3);
                     });
+            options.EnableSensitiveDataLogging();
         });
 
         services.AddScoped<IEventRepository, EventRepository>();

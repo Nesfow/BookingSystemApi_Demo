@@ -27,12 +27,12 @@ public class EventRepository : IEventRepository
         return eventToCreate.Id;
     }
 
-    public async Task<bool> IsTimeSlotAvailable(int locationId, DateTimeOffset locationEventTime, CancellationToken cancellationToken)
+    public async Task<bool> IsTimeSlotAvailable(int locationId, DateTimeOffset requestedEventTime, CancellationToken cancellationToken)
     {
         using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
-        return await dbContext.Set<Event>()
-           .AnyAsync(x => x.LocationId == locationId && x.EventDate.Date == locationEventTime.Date,
+        return !await dbContext.Set<Event>()
+           .AnyAsync(x => x.LocationId == locationId && x.EventDate.Date == requestedEventTime.Date,
             cancellationToken);
     }
 }
