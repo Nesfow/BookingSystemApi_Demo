@@ -2,6 +2,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using BookingSystemApi.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using BookingSystemApi.Application.Abstractions.Repositories;
+using BookingSystemApi.Infrastructure.Services;
 
 namespace BookingSystemApi.Infrastructure;
 
@@ -20,6 +22,9 @@ public static class ConfigureInfrastructureServices
                         sqlServerOptionsAction.EnableRetryOnFailure(3);
                     });
         });
+
+        services.AddScoped<IEventRepository, EventRepository>();
+        services.AddScoped<ILocationRepository, LocationRepository>();
 
         return services;
     }
