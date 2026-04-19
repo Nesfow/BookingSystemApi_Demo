@@ -17,7 +17,7 @@ public class EventRepository : IEventRepository
         _dbContextFactory = dbContextFactory;
     }
 
-    public async Task<int> CreateEvent(Event eventToCreate, CancellationToken cancellationToken)
+    public async Task<int> CreateEventAsync(Event eventToCreate, CancellationToken cancellationToken)
     {
         using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
@@ -25,6 +25,17 @@ public class EventRepository : IEventRepository
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return eventToCreate.Id;
+    }
+
+    public async Task<Event?> GetEventAsync(int eventId, CancellationToken cancellationToken)
+    {
+
+        using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+
+        return await dbContext.Set<Event>()
+            .Where(x => x.Id == eventId)
+            .Include(x => x.Location)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<bool> IsTimeSlotAvailable(int locationId, DateTimeOffset requestedEventTime, CancellationToken cancellationToken)

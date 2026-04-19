@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 using BookingSystemApi.Application.Abstractions.Messaging;
 using BookingSystemApi.Application.Features.Event.CreateEvent;
+using BookingSystemApi.Application.Features.Event.GetEventDetails;
 
 namespace BookingSystemApi.Application;
 
@@ -12,6 +13,7 @@ public static class ConfigureApplicationServices
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<ICommandHandler<CreateEventCommand, int>, CreateEventCommandHandler>();
+        services.AddTransient<IQueryHandler<GetEventDetailsQuery, EventDetailsDto>, GetEventDetailsQueryHandler>();
 
         return services;
     }

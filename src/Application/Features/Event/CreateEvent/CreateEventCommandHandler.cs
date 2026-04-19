@@ -44,6 +44,6 @@ internal sealed class CreateEventCommandHandler : ICommandHandler<CreateEventCom
             command.CreateEventDto.LocationId
         );
 
-        return await _eventRepository.CreateEvent(newEvent, cancellationToken);
+        return await _eventRepository.CreateEventAsync(newEvent, cancellationToken);
     }
 }
