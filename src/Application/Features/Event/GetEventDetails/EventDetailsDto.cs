@@ -1,12 +1,11 @@
 using BookingSystemApi.Application.Features.Location.GetLocation;
-using BookingSystemApi.Domain.Entities;
 using BookingSystemApi.Domain.Enums;
 
 namespace BookingSystemApi.Application.Features.Event.GetEventDetails;
 
 public class EventDetailsDto
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Name { get; set; } = null!;
     public string Description { get; set; } = null!;
     public DateTime Date { get; set; }
