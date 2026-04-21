@@ -1,5 +1,7 @@
+using BookingSystemApi.Application.Abstractions.Data;
 using BookingSystemApi.Application.Abstractions.Messaging;
-using BookingSystemApi.Application.Abstractions.Repositories;
+
+using Microsoft.EntityFrameworkCore;
 
 using Shared;
 
@@ -7,32 +9,29 @@ namespace BookingSystemApi.Application.Features.Event.CreateEvent;
 
 internal sealed class CreateEventCommandHandler : ICommandHandler<CreateEventCommand, int>
 {
-    private readonly IEventRepository _eventRepository;
-    private readonly ILocationRepository _locationRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public CreateEventCommandHandler(IEventRepository eventRepository, ILocationRepository locationRepository)
+    public CreateEventCommandHandler(IApplicationDbContext applicationDbContext)
     {
-        _eventRepository = eventRepository;
-        _locationRepository = locationRepository;
+        _applicationDbContext = applicationDbContext;
     }
 
     public async Task<Result<int>> Handle(CreateEventCommand command, CancellationToken cancellationToken)
     {
-        var location = await _locationRepository.GetLocationById(
-            command.CreateEventDto.LocationId,
-            cancellationToken);
+        var location = await _applicationDbContext.Locations
+            .Where(x => x.Id == command.CreateEventDto.LocationId)
+            .FirstOrDefaultAsync(cancellationToken);
 
         if (location is null)
         {
             return new Error("Location not found.", ErrorType.NotFound);
         }
 
-        var timeSlotAvailable = await _eventRepository.IsTimeSlotAvailable(
-            command.CreateEventDto.LocationId,
-            command.CreateEventDto.EventDate,
+        var timeSlotUnavailable = await _applicationDbContext.Events
+           .AnyAsync(x => x.LocationId == command.CreateEventDto.LocationId && x.EventDate.Date == command.CreateEventDto.EventDate.Date,
             cancellationToken);
 
-        if (!timeSlotAvailable)
+        if (timeSlotUnavailable)
         {
             return new Error("An event already exists at this location for the selected date.", ErrorType.Conflict);
         }
@@ -44,6 +43,9 @@ internal sealed class CreateEventCommandHandler : ICommandHandler<CreateEventCom
             command.CreateEventDto.LocationId
         );
 
-        return await _eventRepository.CreateEventAsync(newEvent, cancellationToken);
+        _applicationDbContext.Events.Add(newEvent);
+        await _applicationDbContext.SaveChangesAsync(cancellationToken);
+
+        return newEvent.Id;
     }
 }

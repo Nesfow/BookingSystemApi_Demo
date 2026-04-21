@@ -1,9 +1,9 @@
+using BookingSystemApi.Infrastructure.Persistence;
+using BookingSystemApi.Application.Abstractions.Data;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using BookingSystemApi.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
-using BookingSystemApi.Application.Abstractions.Repositories;
-using BookingSystemApi.Infrastructure.Services;
 
 namespace BookingSystemApi.Infrastructure;
 
@@ -13,7 +13,7 @@ public static class ConfigureInfrastructureServices
 
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContextFactory<BookingSystemDbContext>(options =>
+        services.AddDbContext<BookingSystemDbContext>(options =>
         {
             options.UseSqlServer(
                 configuration.GetConnectionString(DbName),
@@ -24,8 +24,7 @@ public static class ConfigureInfrastructureServices
             options.EnableSensitiveDataLogging();
         });
 
-        services.AddScoped<IEventRepository, EventRepository>();
-        services.AddScoped<ILocationRepository, LocationRepository>();
+        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<BookingSystemDbContext>());
 
         return services;
     }

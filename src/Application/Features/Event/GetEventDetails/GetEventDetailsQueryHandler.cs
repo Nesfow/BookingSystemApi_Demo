@@ -1,6 +1,8 @@
+using BookingSystemApi.Application.Abstractions.Data;
 using BookingSystemApi.Application.Abstractions.Messaging;
-using BookingSystemApi.Application.Abstractions.Repositories;
 using BookingSystemApi.Application.Extensions;
+
+using Microsoft.EntityFrameworkCore;
 
 using Shared;
 
@@ -8,16 +10,20 @@ namespace BookingSystemApi.Application.Features.Event.GetEventDetails;
 
 internal sealed class GetEventDetailsQueryHandler : IQueryHandler<GetEventDetailsQuery, EventDetailsDto>
 {
-    private readonly IEventRepository _eventRepository;
+    private readonly IApplicationDbContext _applicationDbContext;
 
-    public GetEventDetailsQueryHandler(IEventRepository eventRepository)
+    public GetEventDetailsQueryHandler(IApplicationDbContext applicationDbContext)
     {
-        _eventRepository = eventRepository;
+        _applicationDbContext = applicationDbContext;
     }
 
     public async Task<Result<EventDetailsDto>> Handle(GetEventDetailsQuery query, CancellationToken cancellationToken)
     {
-        var eventDetails = await _eventRepository.GetEventAsync(query.EventId, cancellationToken);
+        var eventDetails = await _applicationDbContext.Events
+            .Where(x => x.Id == query.EventId)
+            .Include(x => x.Location)
+            .Include(x => x.Seats)
+            .FirstOrDefaultAsync(cancellationToken);
 
         return eventDetails is null ?
             new Error("Event not found", ErrorType.NotFound) :

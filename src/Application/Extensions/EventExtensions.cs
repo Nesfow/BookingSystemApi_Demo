@@ -13,11 +13,11 @@ public static class EventExtensions
             Name = thisEvent.Name,
             Description = thisEvent.Description,
             Date = thisEvent.EventDate.DateTime,
-            AllSeats = thisEvent.Seats.GroupBy(es => es.Seat.SeatType)
+            AllSeats = thisEvent.Seats.GroupBy(es => es.SeatType)
                 .ToDictionary(x => x.Key, x => x.Count()),
             AvailableSeats = thisEvent.Seats
                 .Where(x => x.IsAvailable)
-                .GroupBy(es => es.Seat.SeatType)
+                .GroupBy(es => es.SeatType)
                 .ToDictionary(x => x.Key, x => x.Count()),
             Location = new Features.Location.GetLocation.GetLocationDto()
             {
