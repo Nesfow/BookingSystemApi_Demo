@@ -31,7 +31,7 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
 
         builder.HasMany(p => p.BookedSeats)
             .WithOne()
-            .HasForeignKey(fk => fk.SeatId)
+            .HasForeignKey(fk => fk.Id)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasMany(p => p.Payments)

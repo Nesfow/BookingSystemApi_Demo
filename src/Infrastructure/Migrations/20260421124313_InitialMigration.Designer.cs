@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingSystemApi.Infrastructure.Migrations
 {
     [DbContext(typeof(BookingSystemDbContext))]
-    [Migration("20260413031154_InitialMigration")]
+    [Migration("20260421124313_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -89,37 +89,6 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.ToTable("Event", (string)null);
                 });
 
-            modelBuilder.Entity("BookingSystemApi.Domain.Entities.EventSeat", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SeatId");
-
-                    b.HasIndex("EventId", "SeatId")
-                        .IsUnique();
-
-                    b.ToTable("EventSeat", (string)null);
-                });
-
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -174,19 +143,28 @@ namespace BookingSystemApi.Infrastructure.Migrations
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Label")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("SeatType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
 
                     b.ToTable("Seat", (string)null);
                 });
@@ -245,31 +223,6 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("BookingSystemApi.Domain.Entities.EventSeat", b =>
-                {
-                    b.HasOne("BookingSystemApi.Domain.Entities.Event", "Event")
-                        .WithMany("Seats")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", null)
-                        .WithMany("BookedSeats")
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BookingSystemApi.Domain.Entities.Seat", "Seat")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("Seat");
-                });
-
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Payment", b =>
                 {
                     b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
@@ -285,6 +238,23 @@ namespace BookingSystemApi.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
+                {
+                    b.HasOne("BookingSystemApi.Domain.Entities.Event", "Event")
+                        .WithMany("Seats")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", null)
+                        .WithMany("BookedSeats")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Booking", b =>
