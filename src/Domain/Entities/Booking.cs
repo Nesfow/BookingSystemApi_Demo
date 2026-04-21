@@ -13,7 +13,7 @@ public class Booking
 
     public User User { get; set; } = null!;
     public Event Event { get; set; } = null!;
-    public List<EventSeat> BookedSeats { get; set; } = [];
+    public List<Seat> BookedSeats { get; set; } = [];
     public List<Payment> Payments { get; set; } = [];
 
     private Booking() { } // for ef core migrations
