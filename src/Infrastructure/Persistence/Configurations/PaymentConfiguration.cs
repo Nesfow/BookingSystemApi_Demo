@@ -1,4 +1,5 @@
 using BookingSystemApi.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,10 +18,5 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
         builder.Property(p => p.PaymentDate)
             .HasPrecision(3);
         builder.Property(p => p.PaymentType);
-
-        builder.HasOne(p => p.Booking)
-            .WithMany()
-            .HasForeignKey(fk => fk.BookingId)
-            .OnDelete(DeleteBehavior.Restrict);
     }
 }

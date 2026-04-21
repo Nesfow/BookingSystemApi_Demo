@@ -22,21 +22,20 @@ public class BookingConfiguration : IEntityTypeConfiguration<Booking>
         builder.HasOne(p => p.User)
             .WithMany(p => p.Bookings)
             .HasForeignKey(fk => fk.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(p => p.Event)
             .WithMany()
             .HasForeignKey(fk => fk.EventId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(p => p.BookedSeats)
             .WithOne()
-            .HasForeignKey(fk => fk.BookingId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(fk => fk.BookingId);
 
         builder.HasMany(p => p.Payments)
-            .WithOne()
-            .HasForeignKey(fk => fk.Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WithOne(p => p.Booking)
+            .HasForeignKey(fk => fk.BookingId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

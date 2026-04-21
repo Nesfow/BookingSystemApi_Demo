@@ -113,7 +113,10 @@ namespace BookingSystemApi.Infrastructure.Migrations
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Amount")
                         .HasPrecision(18, 4)
@@ -203,13 +206,13 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.HasOne("BookingSystemApi.Domain.Entities.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("BookingSystemApi.Domain.Entities.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Event");
@@ -222,7 +225,7 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.HasOne("BookingSystemApi.Domain.Entities.Location", "Location")
                         .WithMany()
                         .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Location");
@@ -231,15 +234,9 @@ namespace BookingSystemApi.Infrastructure.Migrations
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Payment", b =>
                 {
                     b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
-                        .WithMany()
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", null)
                         .WithMany("Payments")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Booking");
@@ -250,12 +247,12 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
                         .WithMany("BookedSeats")
                         .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("BookingSystemApi.Domain.Entities.Event", "Event")
                         .WithMany("Seats")
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Booking");

@@ -25,6 +25,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany(p => p.Bookings)
             .WithOne(p => p.User)
             .HasForeignKey(fk => fk.UserId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

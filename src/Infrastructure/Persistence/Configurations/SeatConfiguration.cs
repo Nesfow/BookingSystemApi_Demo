@@ -24,13 +24,13 @@ public class SeatConfiguration : IEntityTypeConfiguration<Seat>
         builder.HasOne(p => p.Event)
             .WithMany(p => p.Seats)
             .HasForeignKey(fk => fk.EventId)
-            .OnDelete(DeleteBehavior.Restrict);
+            ;
 
         builder.HasOne(s => s.Booking)
             .WithMany(b => b.BookedSeats)
             .HasForeignKey(s => s.BookingId)
             .IsRequired(false)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Ignore(p => p.SeatOccupancy); // computed property, for Domain object only
     }

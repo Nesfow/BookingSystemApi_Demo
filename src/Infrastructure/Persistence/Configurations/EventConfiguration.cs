@@ -1,4 +1,5 @@
 using BookingSystemApi.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,11 +22,11 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.HasOne(p => p.Location)
             .WithMany()
             .HasForeignKey(fk => fk.LocationId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(p => p.Seats)
             .WithOne()
             .HasForeignKey(fk => fk.EventId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
