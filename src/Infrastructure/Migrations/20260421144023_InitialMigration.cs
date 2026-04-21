@@ -122,8 +122,10 @@ namespace BookingSystemApi.Infrastructure.Migrations
                 name: "Seat",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EventId = table.Column<int>(type: "int", nullable: false),
+                    BookingId = table.Column<int>(type: "int", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,4)", precision: 18, scale: 4, nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     Label = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -133,11 +135,11 @@ namespace BookingSystemApi.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Seat", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Seat_Booking_Id",
-                        column: x => x.Id,
+                        name: "FK_Seat_Booking_BookingId",
+                        column: x => x.BookingId,
                         principalTable: "Booking",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Seat_Event_EventId",
                         column: x => x.EventId,
@@ -164,6 +166,11 @@ namespace BookingSystemApi.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Payment_BookingId",
                 table: "Payment",
+                column: "BookingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Seat_BookingId",
+                table: "Seat",
                 column: "BookingId");
 
             migrationBuilder.CreateIndex(

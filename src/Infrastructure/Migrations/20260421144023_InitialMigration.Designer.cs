@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingSystemApi.Infrastructure.Migrations
 {
     [DbContext(typeof(BookingSystemDbContext))]
-    [Migration("20260421124313_InitialMigration")]
+    [Migration("20260421144023_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -143,6 +143,12 @@ namespace BookingSystemApi.Infrastructure.Migrations
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("EventId")
@@ -163,6 +169,8 @@ namespace BookingSystemApi.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookingId");
 
                     b.HasIndex("EventId");
 
@@ -242,17 +250,18 @@ namespace BookingSystemApi.Infrastructure.Migrations
 
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
                 {
+                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
+                        .WithMany("BookedSeats")
+                        .HasForeignKey("BookingId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
                     b.HasOne("BookingSystemApi.Domain.Entities.Event", "Event")
                         .WithMany("Seats")
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", null)
-                        .WithMany("BookedSeats")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Booking");
 
                     b.Navigation("Event");
                 });

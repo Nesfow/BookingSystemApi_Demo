@@ -30,8 +30,10 @@ internal sealed class AddSeatsCommandHandler : ICommandHandler<AddSeatsCommand>
             return Result.Failure(new Error("Seat cannot be added, as event doesn't exist", ErrorType.NotFound));
         }
 
-        var seatsToAdd = command.AddSeatsDtos.Select(x => x.ToSeat()).ToList();
-        thisEvent.AddSeats(seatsToAdd);
+        foreach (var seat in command.AddSeatsDtos)
+        {
+            thisEvent.AddSeat(seat.Label, seat.SeatType, seat.Price);
+        }
 
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
 

@@ -1,5 +1,6 @@
 using BookingSystemApi.Api.Helpers;
 using BookingSystemApi.Application.Abstractions.Messaging;
+using BookingSystemApi.Application.Features.Event.AddSeats;
 using BookingSystemApi.Application.Features.Event.CreateEvent;
 using BookingSystemApi.Application.Features.Event.GetEventDetails;
 
@@ -32,6 +33,19 @@ public static class EventEndpoints
 
                 return result.IsSuccess
                     ? Results.Ok(result.Value)
+                    : result.Error!.ToHttpResult();
+            });
+
+        routeBuilder.MapPost("/events/{eventId}/seats", async (
+            int eventId,
+            List<AddSeatDto> request,
+            ICommandHandler<AddSeatsCommand> commandHandler,
+            CancellationToken cancellationToken) =>
+            {
+                var result = await commandHandler.Handle(new AddSeatsCommand(eventId, request), cancellationToken);
+
+                return result.IsSuccess
+                    ? Results.Ok()
                     : result.Error!.ToHttpResult();
             });
 
