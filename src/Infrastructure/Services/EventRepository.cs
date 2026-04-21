@@ -29,12 +29,12 @@ public class EventRepository : IEventRepository
 
     public async Task<Event?> GetEventAsync(int eventId, CancellationToken cancellationToken)
     {
-
         using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         return await dbContext.Set<Event>()
             .Where(x => x.Id == eventId)
             .Include(x => x.Location)
+            .Include(x => x.Seats)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
