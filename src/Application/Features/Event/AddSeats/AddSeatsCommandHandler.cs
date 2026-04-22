@@ -1,6 +1,6 @@
 using BookingSystemApi.Application.Abstractions.Data;
 using BookingSystemApi.Application.Abstractions.Messaging;
-using BookingSystemApi.Domain.Exceptions.Event;
+using BookingSystemApi.Domain.Exceptions;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -36,9 +36,9 @@ internal sealed class AddSeatsCommandHandler : ICommandHandler<AddSeatsCommand>
             {
                 thisEvent.AddSeat(seat.Label, seat.SeatType, seat.Price);
             }
-            catch (CapacityExceededException capacityException)
+            catch (DomainException domainException)
             {
-                return Result.Failure(new Error(capacityException.Message, ErrorType.Validation));
+                return Result.Failure(new Error(domainException.Message, ErrorType.Validation));
             }
         }
 
