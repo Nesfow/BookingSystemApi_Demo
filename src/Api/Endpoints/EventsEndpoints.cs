@@ -4,8 +4,6 @@ using BookingSystemApi.Application.Features.Event.AddSeats;
 using BookingSystemApi.Application.Features.Event.CreateEvent;
 using BookingSystemApi.Application.Features.Event.GetEventDetails;
 
-using Shared;
-
 namespace BookingSystemApi.Api.Endpoints;
 
 public static class EventEndpoints
