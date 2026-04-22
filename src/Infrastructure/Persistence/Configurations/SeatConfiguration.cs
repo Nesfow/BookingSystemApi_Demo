@@ -23,8 +23,7 @@ public class SeatConfiguration : IEntityTypeConfiguration<Seat>
 
         builder.HasOne(p => p.Event)
             .WithMany(p => p.Seats)
-            .HasForeignKey(fk => fk.EventId)
-            ;
+            .HasForeignKey(fk => fk.EventId);
 
         builder.HasOne(s => s.Booking)
             .WithMany(b => b.BookedSeats)
