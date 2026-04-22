@@ -1,6 +1,6 @@
 using BookingSystemApi.Application.Abstractions.Data;
 using BookingSystemApi.Application.Abstractions.Messaging;
-using BookingSystemApi.Application.Extensions;
+using BookingSystemApi.Domain.Exceptions.Event;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -32,7 +32,14 @@ internal sealed class AddSeatsCommandHandler : ICommandHandler<AddSeatsCommand>
 
         foreach (var seat in command.AddSeatsDtos)
         {
-            thisEvent.AddSeat(seat.Label, seat.SeatType, seat.Price);
+            try
+            {
+                thisEvent.AddSeat(seat.Label, seat.SeatType, seat.Price);
+            }
+            catch (CapacityExceededException capacityException)
+            {
+                return Result.Failure(new Error(capacityException.Message, ErrorType.Validation));
+            }
         }
 
         await _applicationDbContext.SaveChangesAsync(cancellationToken);
