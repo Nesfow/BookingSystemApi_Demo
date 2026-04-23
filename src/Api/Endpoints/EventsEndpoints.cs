@@ -3,6 +3,7 @@ using BookingSystemApi.Application.Abstractions.Messaging;
 using BookingSystemApi.Application.Features.Event.AddSeats;
 using BookingSystemApi.Application.Features.Event.CreateEvent;
 using BookingSystemApi.Application.Features.Event.GetEventDetails;
+using BookingSystemApi.Application.Features.Event.GetEventSeats;
 
 namespace BookingSystemApi.Api.Endpoints;
 
@@ -44,6 +45,18 @@ public static class EventEndpoints
 
                 return result.IsSuccess
                     ? Results.Ok()
+                    : result.Error!.ToHttpResult();
+            });
+
+        routeBuilder.MapGet("/events/{eventId}/seats", async (
+            int eventId,
+            IQueryHandler<GetEventSeatsQuery, IReadOnlyCollection<GetEventSeatDto>> queryHandler,
+            CancellationToken cancellationToken) =>
+            {
+                var result = await queryHandler.Handle(new GetEventSeatsQuery(eventId), cancellationToken);
+
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
                     : result.Error!.ToHttpResult();
             });
 
