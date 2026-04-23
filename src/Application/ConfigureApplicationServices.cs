@@ -15,11 +15,11 @@ public static class ConfigureApplicationServices
 
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddTransient<ICommandHandler<CreateEventCommand, int>, CreateEventCommandHandler>();
-        services.AddTransient<ICommandHandler<AddSeatsCommand>, AddSeatsCommandHandler>();
-        services.AddTransient<IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto>, GetEventDetailsQueryHandler>();
-        services.AddTransient<IQueryHandler<GetLocationQuery, GetLocationDto>, GetLocationQueryHandler>();
-        services.AddTransient<IQueryHandler<GetEventSeatsQuery, IReadOnlyCollection<GetEventSeatDto>>, GetEventSeatsQueryHandler>();
+        services.AddScoped<ICommandHandler<CreateEventCommand, int>, CreateEventCommandHandler>();
+        services.AddScoped<ICommandHandler<AddSeatsCommand>, AddSeatsCommandHandler>();
+        services.AddScoped<IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto>, GetEventDetailsQueryHandler>();
+        services.AddScoped<IQueryHandler<GetLocationQuery, GetLocationDto>, GetLocationQueryHandler>();
+        services.AddScoped<IQueryHandler<GetEventSeatsQuery, IReadOnlyCollection<GetEventSeatDto>>, GetEventSeatsQueryHandler>();
 
         return services;
     }
