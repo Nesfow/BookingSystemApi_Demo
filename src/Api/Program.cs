@@ -9,8 +9,7 @@ builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
 app.MapEventEndpoints();
-
+app.MapLocationEndpoints();
 
 app.Run();
