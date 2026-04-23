@@ -5,9 +5,9 @@ namespace BookingSystemApi.Application.Extensions;
 
 public static class EventExtensions
 {
-    public static EventDetailsDto ToEventDetailsDto(this Event thisEvent)
+    public static GetEventDetailsDto ToEventDetailsDto(this Event thisEvent)
     {
-        return new EventDetailsDto()
+        return new GetEventDetailsDto()
         {
             Id = thisEvent.Id,
             Name = thisEvent.Name,

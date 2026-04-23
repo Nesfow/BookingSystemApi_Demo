@@ -8,7 +8,7 @@ using Shared;
 
 namespace BookingSystemApi.Application.Features.Event.GetEventDetails;
 
-internal sealed class GetEventDetailsQueryHandler : IQueryHandler<GetEventDetailsQuery, EventDetailsDto>
+internal sealed class GetEventDetailsQueryHandler : IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto>
 {
     private readonly IApplicationDbContext _applicationDbContext;
 
@@ -17,7 +17,7 @@ internal sealed class GetEventDetailsQueryHandler : IQueryHandler<GetEventDetail
         _applicationDbContext = applicationDbContext;
     }
 
-    public async Task<Result<EventDetailsDto>> Handle(GetEventDetailsQuery query, CancellationToken cancellationToken)
+    public async Task<Result<GetEventDetailsDto>> Handle(GetEventDetailsQuery query, CancellationToken cancellationToken)
     {
         var eventDetails = await _applicationDbContext.Events
             .Where(x => x.Id == query.EventId)

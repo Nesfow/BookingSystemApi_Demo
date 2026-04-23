@@ -3,7 +3,7 @@ using BookingSystemApi.Domain.Enums;
 
 namespace BookingSystemApi.Application.Features.Event.GetEventDetails;
 
-public class EventDetailsDto
+public class GetEventDetailsDto
 {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
