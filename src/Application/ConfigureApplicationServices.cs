@@ -15,7 +15,7 @@ public static class ConfigureApplicationServices
     {
         services.AddTransient<ICommandHandler<CreateEventCommand, int>, CreateEventCommandHandler>();
         services.AddTransient<ICommandHandler<AddSeatsCommand>, AddSeatsCommandHandler>();
-        services.AddTransient<IQueryHandler<GetEventDetailsQuery, EventDetailsDto>, GetEventDetailsQueryHandler>();
+        services.AddTransient<IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto>, GetEventDetailsQueryHandler>();
 
         return services;
     }

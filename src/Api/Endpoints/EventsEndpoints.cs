@@ -12,7 +12,7 @@ public static class EventEndpoints
     {
         routeBuilder.MapGet("/events/{eventId}", async (
             int eventId,
-            IQueryHandler<GetEventDetailsQuery, EventDetailsDto> queryHandler,
+            IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto> queryHandler,
             CancellationToken cancellationToken) =>
             {
                 var result = await queryHandler.Handle(new GetEventDetailsQuery(eventId), cancellationToken);
