@@ -1,4 +1,3 @@
-namespace BookingSystemApi.Infrastructure
-{
-    public static class InfrastructureAssemblyMarker;
-}
+namespace BookingSystemApi.Infrastructure;
+
+public static class InfrastructureAssemblyMarker;
