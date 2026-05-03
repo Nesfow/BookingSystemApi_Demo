@@ -8,7 +8,7 @@ using BookingSystemApi.Application.Features.Event.AddSeats;
 using BookingSystemApi.Application.Features.Location.GetLocation;
 using BookingSystemApi.Application.Features.Event.GetEventSeats;
 using BookingSystemApi.Application.Features.Location.CreateLocation;
-using BookingSystemApi.Application.Features.User;
+using BookingSystemApi.Application.Features.User.CreateUser;
 
 namespace BookingSystemApi.Application;
 

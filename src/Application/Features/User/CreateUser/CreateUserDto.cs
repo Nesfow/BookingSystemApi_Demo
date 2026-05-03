@@ -1,4 +1,4 @@
-namespace BookingSystemApi.Application.Features.User;
+namespace BookingSystemApi.Application.Features.User.CreateUser;
 
 public class CreateUserDto
 {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 using Shared;
 
-namespace BookingSystemApi.Application.Features.User;
+namespace BookingSystemApi.Application.Features.User.CreateUser;
 
 internal sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, int>
 {

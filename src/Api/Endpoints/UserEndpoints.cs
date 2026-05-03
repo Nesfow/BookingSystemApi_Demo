@@ -1,6 +1,6 @@
 using BookingSystemApi.Api.Helpers;
 using BookingSystemApi.Application.Abstractions.Messaging;
-using BookingSystemApi.Application.Features.User;
+using BookingSystemApi.Application.Features.User.CreateUser;
 
 namespace BookingSystemApi.Api.Endpoints;
 
