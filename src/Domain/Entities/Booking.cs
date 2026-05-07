@@ -25,7 +25,12 @@ public class Booking
         EventId = eventId;
     }
 
-    public decimal CalculatePrice()
+    public void CalculateBookingPrice()
+    {
+        Price = BookedSeats.Sum(s => s.Price);
+    }
+
+    public decimal CalculatePaymentOwned()
     {
         return BookedSeats.Where(x => !x.IsPaid).Sum(s => s.Price);
     }
