@@ -27,7 +27,7 @@ public class Booking
 
     public decimal CalculatePrice()
     {
-        return BookedSeats.Sum(s => s.Price);
+        return BookedSeats.Where(x => !x.IsPaid).Sum(s => s.Price);
     }
 
     // Simplifying - checking only if booking is made before or at the day of event
