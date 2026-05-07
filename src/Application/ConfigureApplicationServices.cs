@@ -9,6 +9,7 @@ using BookingSystemApi.Application.Features.Location.GetLocation;
 using BookingSystemApi.Application.Features.Event.GetEventSeats;
 using BookingSystemApi.Application.Features.Location.CreateLocation;
 using BookingSystemApi.Application.Features.User.CreateUser;
+using BookingSystemApi.Application.Features.User.GetUserById;
 
 namespace BookingSystemApi.Application;
 
@@ -24,6 +25,7 @@ public static class ConfigureApplicationServices
         services.AddScoped<IQueryHandler<GetEventDetailsQuery, GetEventDetailsDto>, GetEventDetailsQueryHandler>();
         services.AddScoped<IQueryHandler<GetLocationQuery, GetLocationDto>, GetLocationQueryHandler>();
         services.AddScoped<IQueryHandler<GetEventSeatsQuery, IReadOnlyCollection<GetEventSeatDto>>, GetEventSeatsQueryHandler>();
+        services.AddScoped<IQueryHandler<GetUserByIdQuery, GetUserByIdDto>, GetUserByIdQueryHandler>();
 
         return services;
     }

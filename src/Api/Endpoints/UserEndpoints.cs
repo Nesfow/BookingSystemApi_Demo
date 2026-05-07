@@ -1,6 +1,7 @@
 using BookingSystemApi.Api.Helpers;
 using BookingSystemApi.Application.Abstractions.Messaging;
 using BookingSystemApi.Application.Features.User.CreateUser;
+using BookingSystemApi.Application.Features.User.GetUserById;
 
 namespace BookingSystemApi.Api.Endpoints;
 
@@ -14,6 +15,18 @@ public static class UserEndpoints
             CancellationToken cancellationToken) =>
             {
                 var result = await commandHandler.Handle(new CreateUserCommand(createUserDto), cancellationToken);
+
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
+                    : result.Error!.ToHttpResult();
+            });
+
+        routeBuilder.MapGet("/users/{userId}", async (
+            int userId,
+            IQueryHandler<GetUserByIdQuery, GetUserByIdDto> queryHandler,
+            CancellationToken cancellationToken) =>
+            {
+                var result = await queryHandler.Handle(new GetUserByIdQuery(userId), cancellationToken);
 
                 return result.IsSuccess
                     ? Results.Ok(result.Value)

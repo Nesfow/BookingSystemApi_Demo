@@ -16,7 +16,7 @@ public record Result
     public static Result Success() => new(true, null);
     public static Result Failure(Error error) => new(false, error);
 
-    // A small shortcut to use an error in the falied return instead of conversion to Result
+    // A small shortcut to use an error in the failed return instead of conversion to Result
     public static implicit operator Result(Error error) => Failure(error);
 }
 
@@ -38,5 +38,4 @@ public record Result<TValue> : Result
 
     public static implicit operator Result<TValue>(TValue? value) => new(value, true, null);
     public static implicit operator Result<TValue>(Error error) => new(error);
-
 }
