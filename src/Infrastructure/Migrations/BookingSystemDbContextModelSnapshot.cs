@@ -41,6 +41,9 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
+                    b.Property<DateTimeOffset>("PaymentExpirationDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 4)
                         .HasColumnType("decimal(18,4)");
@@ -155,6 +158,9 @@ namespace BookingSystemApi.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
                     b.Property<string>("Label")

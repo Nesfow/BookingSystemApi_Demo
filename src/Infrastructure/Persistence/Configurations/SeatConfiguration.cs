@@ -18,6 +18,7 @@ public class SeatConfiguration : IEntityTypeConfiguration<Seat>
         builder.Property(p => p.Price)
             .HasPrecision(18, 4);
         builder.Property(p => p.IsAvailable);
+        builder.Property(p => p.IsPaid);
         builder.Property(p => p.Label);
         builder.Property(p => p.SeatType);
 
