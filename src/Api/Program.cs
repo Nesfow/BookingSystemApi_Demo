@@ -12,5 +12,6 @@ var app = builder.Build();
 app.MapEventEndpoints();
 app.MapLocationEndpoints();
 app.MapUserEndpoints();
+app.MapBookingEndpoints();
 
 app.Run();
