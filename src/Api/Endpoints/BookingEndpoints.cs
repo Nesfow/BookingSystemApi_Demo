@@ -1,6 +1,7 @@
 using BookingSystemApi.Api.Helpers;
 using BookingSystemApi.Application.Abstractions.Messaging;
 using BookingSystemApi.Application.Features.Booking.CreateBooking;
+using BookingSystemApi.Application.Features.Booking.GetBooking;
 
 namespace BookingSystemApi.Api.Endpoints;
 
@@ -20,17 +21,17 @@ public static class BookingEndpoints
                     : result.Error!.ToHttpResult();
             });
 
-        // routeBuilder.MapGet("/bookings/{bookingId}", async (
-        //     int bookingId,
-        //     IQueryHandler<GetUserByIdQuery, GetUserByIdDto> queryHandler,
-        //     CancellationToken cancellationToken) =>
-        //     {
-        //         var result = await queryHandler.Handle(new GetUserByIdQuery(userId), cancellationToken);
+        routeBuilder.MapGet("/bookings/{bookingId}", async (
+            int bookingId,
+            IQueryHandler<GetBookingQuery, GetBookingDto> queryHandler,
+            CancellationToken cancellationToken) =>
+            {
+                var result = await queryHandler.Handle(new GetBookingQuery(bookingId), cancellationToken);
 
-        //         return result.IsSuccess
-        //             ? Results.Ok(result.Value)
-        //             : result.Error!.ToHttpResult();
-        //     });
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
+                    : result.Error!.ToHttpResult();
+            });
 
         return routeBuilder;
     }

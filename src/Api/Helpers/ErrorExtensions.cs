@@ -12,6 +12,9 @@ public static class ErrorExtensions
         {
             ErrorType.NotFound => Results.NotFound(apiError),
             ErrorType.Conflict => Results.Conflict(apiError),
+            ErrorType.Failure => Results.InternalServerError(apiError),
+            ErrorType.Problem => Results.InternalServerError(apiError),
+            ErrorType.Validation => Results.BadRequest(apiError),
             _ => Results.BadRequest(apiError)
         };
     }
