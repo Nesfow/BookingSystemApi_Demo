@@ -9,7 +9,6 @@ public interface IApplicationDbContext
     DbSet<Booking> Bookings { get; }
     DbSet<Event> Events { get; }
     DbSet<Location> Locations { get; }
-    DbSet<Payment> Payments { get; }
     DbSet<Seat> Seats { get; }
     DbSet<User> Users { get; }
 

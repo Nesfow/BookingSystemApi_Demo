@@ -15,7 +15,6 @@ public class Booking
     public User User { get; set; } = null!;
     public Event Event { get; set; } = null!;
     public List<Seat> BookedSeats { get; set; } = [];
-    public List<Payment> Payments { get; set; } = [];
 
     private Booking() { } // for ef core migrations
 
@@ -36,10 +35,10 @@ public class Booking
     }
 
     // Simplifying - checking only if booking is made before or at the day of event
-    public void CalculatePaymentExpirationDate()
+    public void CalculatePaymentExpirationDate(DateTimeOffset eventDate)
     {
-        PaymentExpirationDate = (Event.EventDate - BookingDate).TotalDays >= 7
+        PaymentExpirationDate = (eventDate - BookingDate).TotalDays >= 7
             ? BookingDate.AddDays(7)
-            : Event.EventDate;
+            : eventDate;
     }
 }

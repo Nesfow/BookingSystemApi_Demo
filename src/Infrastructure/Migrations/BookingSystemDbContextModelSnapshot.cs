@@ -113,36 +113,6 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.ToTable("Location", (string)null);
                 });
 
-            modelBuilder.Entity("BookingSystemApi.Domain.Entities.Payment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(18, 4)
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<int>("BookingId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("PaymentDate")
-                        .HasPrecision(3)
-                        .HasColumnType("datetimeoffset(3)");
-
-                    b.Property<string>("PaymentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BookingId");
-
-                    b.ToTable("Payment", (string)null);
-                });
-
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
                 {
                     b.Property<int>("Id")
@@ -237,17 +207,6 @@ namespace BookingSystemApi.Infrastructure.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("BookingSystemApi.Domain.Entities.Payment", b =>
-                {
-                    b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
-                        .WithMany("Payments")
-                        .HasForeignKey("BookingId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Booking");
-                });
-
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Seat", b =>
                 {
                     b.HasOne("BookingSystemApi.Domain.Entities.Booking", "Booking")
@@ -269,8 +228,6 @@ namespace BookingSystemApi.Infrastructure.Migrations
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Booking", b =>
                 {
                     b.Navigation("BookedSeats");
-
-                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("BookingSystemApi.Domain.Entities.Event", b =>
